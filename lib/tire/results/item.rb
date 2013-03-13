@@ -4,6 +4,7 @@ module Tire
     class Item
       extend  ActiveModel::Naming
       include ActiveModel::Conversion
+      include ActiveModel::SerializerSupport if defined?(ActiveModel::SerializerSupport)
 
       # Create new instance, recursively converting all Hashes to Item
       # and leaving everything else alone.
@@ -87,6 +88,8 @@ module Tire
         s = []; @attributes.each { |k,v| s << "#{k}: #{v.inspect}" }
         %Q|<Item#{self.class.to_s == 'Tire::Results::Item' ? '' : " (#{self.class})"} #{s.join(', ')}>|
       end
+
+      include Serializer if defined?(ActiveModel::SerializerSupport)
 
     end
 
